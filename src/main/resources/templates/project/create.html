@@ -26,7 +26,7 @@
 
                             <section class="panel panel-transparent">
                                 <header class="panel-heading">
-                                    <h2 class="panel-title">Project Create</h2>
+                                    <h2 class="panel-title">Project Update</h2>
                                 </header>
 
                                 <div class="panel-body">
@@ -53,7 +53,7 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Assigned Manager</label>
-                                                    <select th:field="*{assignedManager}" name="assignedmanager" class="custom-select">
+                                                    <select name="assignedmanager" th:field="*{assignedManager}" class="custom-select">
                                                         <option th:value="''" th:text="Select"></option>
                                                         <option th:each="manager : ${managers}" th:text="${manager.firstName + ' ' + manager.lastName}" th:value="${manager.userName}"></option>
                                                     </select>
@@ -78,7 +78,7 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="projectdetail">Project Detail</label>
-                                                    <textarea id="projectdetail" class="form-control" th:field="*{projectDetail}" placeholder="project detail"></textarea>
+                                                    <textarea id="projectdetail" th:field="*{projectDetail}" class="form-control"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,13 +130,13 @@
                                             <tr th:each="project : ${projects}">
                                                 <td th:text="${project.projectCode}"></td>
                                                 <td th:text="${project.projectName}"></td>
-                                                <td th:text="${project.startDate + ' ' + project.endDate}"></td>
+                                                <td th:text="${#temporals.format(project.startDate, 'MM/dd/yyyy') + ' ' + #temporals.format(project.endDate, 'MM/dd/yyyy')}"></td>
                                                 <td th:text="${project.assignedManager.firstName + ' ' + project.assignedManager.lastName}"></td>
-                                                <td th:text="${project.projectDetail}"></td>
+                                                <td th:text="${project.projectStatus.value}"></td>
                                                 <td>
-                                                    <a th:href="@{/project/update/{id}(id=${project.getProjectCode()})}"><button type="button" class="btn btn-warning rounded-0">Update</button></a>
-                                                    <a href="#"><button type="button" class="btn btn-danger rounded-0">Delete</button></a>
-                                                    <a href="#"><button type="button" class="btn btn-info rounded-0">Complete</button></a>
+                                                    <a th:href="@{/project/update/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
+                                                    <a th:href="@{/project/delete/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-danger rounded-0">Delete</button></a>
+                                                    <a th:href="@{/project/complete/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-info rounded-0">Complete</button></a>
                                                 </td>
                                             </tr>
                                             </tbody>
