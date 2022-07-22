@@ -2,11 +2,13 @@ package com.cydeo.bootstrap;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.RoleDTO;
+import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Gender;
 import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.RoleService;
+import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -22,11 +24,13 @@ public class DataGenerator implements CommandLineRunner {
     RoleService roleService;
     UserService userService;
     ProjectService projectService;
+    TaskService taskService;
 
-    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService) {
+    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService, TaskService taskService) {
         this.roleService = roleService;
         this.userService = userService;
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -72,5 +76,13 @@ public class DataGenerator implements CommandLineRunner {
         projectService.save(project1);
         projectService.save(project2);
         projectService.save(project3);
+
+        TaskDTO task1 = new TaskDTO(1L, project1, user1, "Sprint Task" , "This is Sprint Task", Status.COMPLETE, LocalDate.now().plusDays(25));
+        TaskDTO task2 = new TaskDTO(2L, project1, user8, "Sprint MVC Task" , "This is Sprint MVC Task", Status.IN_PROGRESS, LocalDate.now().plusDays(30));
+        TaskDTO task3 = new TaskDTO(3L, project1, user7, "Sprint API Task" , "This is Sprint API Task", Status.OPEN, LocalDate.now().plusDays(40));
+
+        taskService.save(task1);
+        taskService.save(task2);
+        taskService.save(task3);
     }
 }
